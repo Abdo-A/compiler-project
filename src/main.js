@@ -6,7 +6,7 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-rl.question("Please enter the code ", value => {
+rl.question("Please enter the code? ", value => {
   code = value;
   return startApp();
 });
