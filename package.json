@@ -1,0 +1,21 @@
+{
+  "name": "scanner",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "description": "",
+  "devDependencies": {
+    "electron": "3.0.5"
+  },
+  "dependencies": {
+    "inquirer": "^6.2.0",
+    "readline-async": "^0.1.0",
+    "readline-sync": "^1.4.9",
+    "stdio": "^0.2.7"
+  }
+}
