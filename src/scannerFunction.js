@@ -1,8 +1,7 @@
 let stack = ""; //the string to which we will concat the characters of one token at a time (string token)
 
-let scanResultObject = {}; //the object that will have each token and its value
-
-let newToken = true; //when we are ready to start scanning a new token
+let tokensArray = []; //tokens array
+let tokenTypesArray = []; //token types array
 
 let Code = []; //global holder for the code
 let I; //global holder for the current index of the character in the code to be scanned
@@ -93,9 +92,10 @@ scannerFunction = code => {
   if (stack) {
     printStack();
   }
-};
 
-module.exports = scannerFunction;
+  console.log(tokensArray);
+  console.log(tokenTypesArray);
+};
 
 //---------------------------------------LETTER-----------------------------------------------------------
 
@@ -135,7 +135,9 @@ const roundBracketsCase = direction => {
   if (stack !== "") {
     printStack();
   }
-  console.log(`${Code[I]} -> ${direction} round bracket`);
+  //console.log(`${Code[I]} -> ${direction} round bracket`);
+  tokensArray.push(`${Code[I]}`);
+  tokenTypesArray.push(`${direction} round bracket`);
 };
 
 //---------------------------------------[]-----------------------------------------------------------
@@ -148,7 +150,9 @@ const squareBracketsCase = direction => {
   if (stack !== "") {
     printStack();
   }
-  console.log(`${Code[I]} -> ${direction} square bracket`);
+  //console.log(`${Code[I]} -> ${direction} square bracket`);
+  tokensArray.push(`${Code[I]}`);
+  tokenTypesArray.push(`${direction} square bracket`);
 };
 
 //---------------------------------------{}-----------------------------------------------------------
@@ -161,7 +165,9 @@ const curlyBracketsCase = direction => {
   if (stack !== "") {
     printStack();
   }
-  console.log(`${Code[I]} -> ${direction} curly bracket`);
+  //console.log(`${Code[I]} -> ${direction} curly bracket`);
+  tokensArray.push(`${Code[I]}`);
+  tokenTypesArray.push(`${direction} curly bracket`);
 };
 
 //---------------------------------------;-----------------------------------------------------------
@@ -174,7 +180,9 @@ const semicolonCase = () => {
   if (stack !== "") {
     printStack();
   }
-  console.log(`${Code[I]} -> delimiter (semicolon)`);
+  //console.log(`${Code[I]} -> delimiter (semicolon)`);
+  tokensArray.push(`${Code[I]}`);
+  tokenTypesArray.push(`delimiter (semicolon)`);
 };
 
 //---------------------------------------,-----------------------------------------------------------
@@ -187,7 +195,9 @@ const commaCase = () => {
   if (stack !== "") {
     printStack();
   }
-  console.log(`${Code[I]} -> delimiter (comma)`);
+  //console.log(`${Code[I]} -> delimiter (comma)`);
+  tokensArray.push(`${Code[I]}`);
+  tokenTypesArray.push(`delimiter (comma)`);
 };
 
 //---------------------------------------:-----------------------------------------------------------
@@ -201,9 +211,10 @@ const colonCase = () => {
     printStack();
   }
   if (Code[I + 1] !== "=") {
-    console.log(`${Code[I]} -> colon operator`);
+    //console.log(`${Code[I]} -> operator (colon)`);
+    tokensArray.push(`${Code[I]}`);
+    tokenTypesArray.push(`operator (colon)`);
   }
-  //console.log(`${Code[I]} -> one colon`);
 };
 
 //---------------------------------------=-----------------------------------------------------------
@@ -218,9 +229,13 @@ const equalCase = () => {
   }
 
   if (Code[I - 1] === ":") {
-    console.log(`:= -> assignment`);
+    //console.log(`:= -> assignment`);
+    tokensArray.push(`:=`);
+    tokenTypesArray.push(`assignment`);
   } else {
-    console.log(`${Code[I]} -> equal operator`);
+    //console.log(`${Code[I]} -> operator (equal)`);
+    tokensArray.push(`${Code[I]}`);
+    tokenTypesArray.push(`operator (equal)`);
   }
 };
 
@@ -234,7 +249,7 @@ const spaceCase = () => {
   if (stack !== "") {
     printStack();
   }
-  //console.log(`${Code[I]} -> one space`);
+  ////console.log(`${Code[I]} -> one space`);
 };
 
 //---------------------------------------|-----------------------------------------------------------
@@ -248,7 +263,9 @@ const orCase = () => {
     printStack();
   }
   if (Code[I - 1] === "|") {
-    console.log(`|| -> operator (OR)`);
+    //console.log(`|| -> operator (OR)`);
+    tokensArray.push(`||`);
+    tokenTypesArray.push(`operator (OR)`);
   }
 };
 
@@ -263,7 +280,9 @@ const andCase = () => {
     printStack();
   }
   if (Code[I - 1] === "&") {
-    console.log(`&& -> operator (AND)`);
+    //console.log(`&& -> operator (AND)`);
+    tokensArray.push(`&&`);
+    tokenTypesArray.push(`operator (AND)`);
   }
 };
 
@@ -276,7 +295,9 @@ const quotationCase = () => {
     stack = stack.concat(Code[I]);
     printStack();
   }
-  console.log(`${Code[I]} -> quotation`);
+  //console.log(`${Code[I]} -> quotation`);
+  tokensArray.push(`${Code[I]}`);
+  tokenTypesArray.push(`quotation`);
 };
 
 //---------------------------------------OPERATOR-----------------------------------------------------------
@@ -289,7 +310,9 @@ const operatorCase = () => {
   if (stack !== "") {
     printStack();
   }
-  console.log(`${Code[I]} -> operator`);
+  //console.log(`${Code[I]} -> operator`);
+  tokensArray.push(`${Code[I]}`);
+  tokenTypesArray.push(`operator`);
 };
 
 printStack = () => {
@@ -316,7 +339,10 @@ printStack = () => {
     type = "number";
   }
 
-  console.log(`${stack} -> ${type}`);
+  //console.log(`${stack} -> ${type}`);
+  tokensArray.push(`${stack}`);
+  tokenTypesArray.push(`${type}`);
+
   stack = "";
 };
 

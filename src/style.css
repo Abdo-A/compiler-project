@@ -1,0 +1,54 @@
+#pageContainer {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  height: 90vh;
+}
+
+/*Left half*/
+
+#codeHalf {
+  height: 100%;
+  background-color: navy;
+  overflow: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+#codeContainer {
+  height: 80%;
+  margin-bottom: 50px;
+  background-color: black;
+  color: bisque;
+  font-size: xx-large;
+  padding: 20px;
+  font-weight: bold;
+}
+
+#startScanButton {
+  height: 30px;
+  background-color: rgb(43, 37, 37);
+  color: antiquewhite;
+  font-weight: bold;
+  border: none;
+}
+
+/*Right half*/
+
+#resultHalf {
+  height: 100%;
+  overflow: auto;
+  padding: 20px;
+  background-color: #d89f9f;
+  display: flex;
+  align-items: center;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+}

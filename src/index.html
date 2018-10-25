@@ -3,29 +3,30 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Scanner</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-    <h1>Hello World!</h1>
-    <button onclick="readFile()">Read what's in the file</button>
+    <div id="pageContainer">
+        <div id="codeHalf">
+            <textarea type="text" id="codeContainer" placeholder="Enter your code.."></textarea>
+            <button onclick="startScanner()" id="startScanButton">Scan Code</button>
+        </div>
+        <div id="resultHalf">
+            <table style="width:100%">
+                <tr>
+                    <th>Token</th>
+                    <th>Token Type</th>
+                </tr>
 
-    <button onclick="writeFile()">Write in file</button>
+            </table>
 
-    <button onclick="logVersions()">Log versions</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="scannerFunction.js"></script>
 </body>
-<script>
-    const fs = require('fs');
-    let text = "";
-    readFile = () => {
-        text = fs.readFileSync('readMe.txt', 'utf8');
-        console.log(text);
-    }
-
-    writeFile = () => {
-        const fileText = fs.writeFileSync('readMe.txt', "text to be written");
-    }
-
-</script>
 
 </html>
