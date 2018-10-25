@@ -6,6 +6,8 @@ let tokenTypesArray = []; //token types array
 let Code = []; //global holder for the code
 let I; //global holder for the current index of the character in the code to be scanned
 
+let commentCase = false; //global variable to check if the current token is in a comment
+
 scannerFunction = code => {
   //mapping the code into the global array, to be available outside the function
   for (let i = 0; i < code.length; i++) {
@@ -83,6 +85,9 @@ scannerFunction = code => {
         quotationCase();
         break;
 
+      case "\n":
+        break;
+
       default:
         operatorCase();
         break;
@@ -100,6 +105,7 @@ scannerFunction = code => {
 //---------------------------------------LETTER-----------------------------------------------------------
 
 const letterCase = () => {
+  if (commentCase) return;
   if (stack[0] === "'" || stack[0] === '"') {
     stack = stack.concat(Code[I]);
     return;
@@ -114,6 +120,7 @@ const letterCase = () => {
 //---------------------------------------NUMBER-----------------------------------------------------------
 
 const numberCase = () => {
+  if (commentCase) return;
   if (stack[0] === "'" || stack[0] === '"') {
     stack = stack.concat(Code[I]);
     return;
@@ -128,6 +135,7 @@ const numberCase = () => {
 //---------------------------------------()-----------------------------------------------------------
 
 const roundBracketsCase = direction => {
+  if (commentCase) return;
   if (stack[0] === "'" || stack[0] === '"') {
     stack = stack.concat(Code[I]);
     return;
@@ -143,6 +151,7 @@ const roundBracketsCase = direction => {
 //---------------------------------------[]-----------------------------------------------------------
 
 const squareBracketsCase = direction => {
+  if (commentCase) return;
   if (stack[0] === "'" || stack[0] === '"') {
     stack = stack.concat(Code[I]);
     return;
@@ -166,13 +175,19 @@ const curlyBracketsCase = direction => {
     printStack();
   }
   //console.log(`${Code[I]} -> ${direction} curly bracket`);
-  tokensArray.push(`${Code[I]}`);
-  tokenTypesArray.push(`${direction} curly bracket`);
+  // tokensArray.push(`${Code[I]}`);
+  // tokenTypesArray.push(`${direction} curly bracket`);
+  if (direction === "right") {
+    commentCase = true;
+  } else if (direction === "left" && commaCase) {
+    commentCase = false;
+  }
 };
 
 //---------------------------------------;-----------------------------------------------------------
 
 const semicolonCase = () => {
+  if (commentCase) return;
   if (stack[0] === "'" || stack[0] === '"') {
     stack = stack.concat(Code[I]);
     return;
@@ -188,6 +203,7 @@ const semicolonCase = () => {
 //---------------------------------------,-----------------------------------------------------------
 
 const commaCase = () => {
+  if (commentCase) return;
   if (stack[0] === "'" || stack[0] === '"') {
     stack = stack.concat(Code[I]);
     return;
@@ -203,6 +219,7 @@ const commaCase = () => {
 //---------------------------------------:-----------------------------------------------------------
 
 const colonCase = () => {
+  if (commentCase) return;
   if (stack[0] === "'" || stack[0] === '"') {
     stack = stack.concat(Code[I]);
     return;
@@ -220,6 +237,7 @@ const colonCase = () => {
 //---------------------------------------=-----------------------------------------------------------
 
 const equalCase = () => {
+  if (commentCase) return;
   if (stack[0] === "'" || stack[0] === '"') {
     stack = stack.concat(Code[I]);
     return;
@@ -242,6 +260,7 @@ const equalCase = () => {
 //--------------------------------------- -----------------------------------------------------------
 
 const spaceCase = () => {
+  if (commentCase) return;
   if (stack[0] === "'" || stack[0] === '"') {
     stack = stack.concat(Code[I]);
     return;
@@ -255,6 +274,7 @@ const spaceCase = () => {
 //---------------------------------------|-----------------------------------------------------------
 
 const orCase = () => {
+  if (commentCase) return;
   if (stack[0] === "'" || stack[0] === '"') {
     stack = stack.concat(Code[I]);
     return;
@@ -272,6 +292,7 @@ const orCase = () => {
 //---------------------------------------&-----------------------------------------------------------
 
 const andCase = () => {
+  if (commentCase) return;
   if (stack[0] === "'" || stack[0] === '"') {
     stack = stack.concat(Code[I]);
     return;
@@ -289,6 +310,7 @@ const andCase = () => {
 //---------------------------------------"-----------------------------------------------------------
 
 const quotationCase = () => {
+  if (commentCase) return;
   if (stack === "") {
     stack = stack.concat(Code[I]);
   } else if (stack[0] === "'" || stack[0] === '"') {
@@ -303,6 +325,7 @@ const quotationCase = () => {
 //---------------------------------------OPERATOR-----------------------------------------------------------
 
 const operatorCase = () => {
+  if (commentCase) return;
   if (stack[0] === "'" || stack[0] === '"') {
     stack = stack.concat(Code[I]);
     return;
@@ -316,6 +339,7 @@ const operatorCase = () => {
 };
 
 printStack = () => {
+  if (commentCase) return;
   let type;
   if (stack[0] === "'" || stack[0] === '"') {
     type = "string";
