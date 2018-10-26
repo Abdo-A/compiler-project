@@ -18,12 +18,16 @@
 
 #codeContainer {
   height: 80%;
-  margin-bottom: 50px;
   background-color: black;
   color: bisque;
   font-size: xx-large;
   padding: 20px;
   font-weight: bold;
+}
+
+#fileInputContainer {
+  color: aliceblue;
+  margin-top: 20px;
 }
 
 #startScanButton {
@@ -42,7 +46,13 @@
   padding: 20px;
   background-color: #d89f9f;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#clearTableButton {
+  width: 30%;
+  margin-top: 20px;
 }
 
 table,

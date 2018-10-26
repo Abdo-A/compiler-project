@@ -9,18 +9,25 @@
 
 <body>
     <div id="pageContainer">
+        <!--CODE HALF-->
         <div id="codeHalf">
             <textarea type="text" id="codeContainer" placeholder="Enter your code.."></textarea>
-            <button onclick="startScanner()" id="startScanButton">Scan Code</button>
+            <button onclick="scanWrittenCode()" id="startScanButton">Scan Code</button>
+
+            <div id="fileInputContainer">OR: <input type="file" id="file" /></div>
+            <button onclick="scanFileCode()" id="startScanButton">Scan Code</button>
         </div>
+
+        <!--RESULT HALF-->
         <div id="resultHalf">
             <table style="width:100%">
                 <tr>
                     <th>Token</th>
                     <th>Token Type</th>
                 </tr>
+                <div></div>
             </table>
-
+            <button onclick="clearTable()" id="clearTableButton">Clear Table</button>
         </div>
     </div>
 

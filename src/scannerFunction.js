@@ -9,6 +9,10 @@ let I; //global holder for the current index of the character in the code to be 
 let commentCase = false; //global variable to check if the current token is in a comment
 
 scannerFunction = code => {
+  //clearing old data
+  tokensArray = [];
+  tokenTypesArray = [];
+
   //mapping the code into the global array, to be available outside the function
   for (let i = 0; i < code.length; i++) {
     Code[i] = code[i];
