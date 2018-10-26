@@ -92,6 +92,7 @@ scannerFunction = code => {
         break;
 
       case "\n":
+        spaceCase();
         break;
 
       default:
