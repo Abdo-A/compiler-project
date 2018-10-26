@@ -7,6 +7,7 @@ let Code = []; //global holder for the code
 let I; //global holder for the current index of the character in the code to be scanned
 
 let commentCase = false; //global variable to check if the current token is in a comment
+let commentStack = 0; //number of nested comments (in case any existed)
 
 scannerFunction = code => {
   //clearing old data
@@ -14,6 +15,7 @@ scannerFunction = code => {
   tokenTypesArray = [];
   Code = [];
   stack = "";
+  commentStack = 0;
 
   //mapping the code into the global array, to be available outside the function
   for (let i = 0; i < code.length; i++) {
@@ -177,9 +179,13 @@ const curlyBracketsCase = direction => {
   // tokensArray.push(`${Code[I]}`);
   // tokenTypesArray.push(`${direction} curly bracket`);
   if (direction === "right") {
+    commentStack++;
     commentCase = true;
   } else if (direction === "left" && commaCase) {
-    commentCase = false;
+    commentStack--;
+    if (commentStack <= 0) {
+      commentCase = false;
+    }
   }
 };
 
