@@ -127,15 +127,7 @@ const letterCase = () => {
 
 const numberCase = () => {
   if (commentCase) return;
-  if (stack[0] === "'" || stack[0] === '"') {
-    stack = stack.concat(Code[I]);
-    return;
-  }
-  if (stack === "" || !isNaN(stack) || stack[0] === "'" || stack[0] === '"') {
-    stack = stack.concat(Code[I]);
-  } else {
-    printStack();
-  }
+  stack = stack.concat(Code[I]);
 };
 
 //---------------------------------------()-----------------------------------------------------------

@@ -17,7 +17,7 @@ exports.createWindow = () => {
     {
       label: "Menu",
       submenu: [
-        { label: "Adjust Notification Value" },
+        { label: "Open" },
         { label: "CoinMarketCap" },
         { label: "Exit" }
       ]
