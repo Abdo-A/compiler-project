@@ -47,12 +47,7 @@
   background-color: #d89f9f;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-}
-
-#clearTableButton {
-  width: 30%;
-  margin-top: 20px;
+  justify-content: space-between;
 }
 
 table,
@@ -61,4 +56,11 @@ td {
   border: 1px solid black;
   border-collapse: collapse;
   text-align: center;
+}
+
+#saveFileButton {
+  background-color: coral;
+  padding: 5px;
+  text-decoration: none;
+  color: aliceblue;
 }

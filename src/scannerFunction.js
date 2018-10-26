@@ -12,6 +12,8 @@ scannerFunction = code => {
   //clearing old data
   tokensArray = [];
   tokenTypesArray = [];
+  Code = [];
+  stack = "";
 
   //mapping the code into the global array, to be available outside the function
   for (let i = 0; i < code.length; i++) {
