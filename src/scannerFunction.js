@@ -9,6 +9,8 @@ let I; //global holder for the current index of the character in the code to be 
 let commentCase = false; //global variable to check if the current token is in a comment
 let commentStack = 0; //number of nested comments (in case any existed)
 
+let floatCase = false; //global variable to check if the current token is a float number
+
 scannerFunction = code => {
   //clearing old data
   tokensArray = [];
@@ -16,6 +18,8 @@ scannerFunction = code => {
   Code = [];
   stack = "";
   commentStack = 0;
+  commentCase = false;
+  floatCase = false;
 
   //mapping the code into the global array, to be available outside the function
   for (let i = 0; i < code.length; i++) {
@@ -63,6 +67,10 @@ scannerFunction = code => {
 
       case ",":
         commaCase();
+        break;
+
+      case ".":
+        periodCase();
         break;
 
       case ":":
@@ -221,6 +229,29 @@ const commaCase = () => {
   tokenTypesArray.push(`delimiter (comma)`);
 };
 
+//---------------------------------------.-----------------------------------------------------------
+
+periodCase = () => {
+  if (commentCase) return;
+  if (stack[0] === "'" || stack[0] === '"') {
+    stack = stack.concat(Code[I]);
+    return;
+  }
+  if (stack !== "" && isNaN(stack)) {
+    printStack();
+  }
+  //console.log(`${Code[I]} -> delimiter (period)`);
+
+  if (stack !== "" && !isNaN(stack) && floatCase === false) {
+    stack = stack.concat(Code[I]);
+    floatCase = true;
+    return;
+  } else {
+    tokensArray.push(`${Code[I]}`);
+    tokenTypesArray.push(`delimiter (period)`);
+  }
+};
+
 //---------------------------------------:-----------------------------------------------------------
 
 const colonCase = () => {
@@ -366,6 +397,7 @@ printStack = () => {
     }
   } else {
     type = "number";
+    floatCase = false;
   }
 
   //console.log(`${stack} -> ${type}`);
