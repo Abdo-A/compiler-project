@@ -73,6 +73,10 @@ scannerFunction = code => {
         periodCase();
         break;
 
+      case "_":
+        underscoreCase();
+        break;
+
       case ":":
         colonCase();
         break;
@@ -242,13 +246,44 @@ periodCase = () => {
   }
   //console.log(`${Code[I]} -> delimiter (period)`);
 
-  if (stack !== "" && !isNaN(stack) && floatCase === false) {
+  if (
+    stack !== "" &&
+    !isNaN(stack) &&
+    floatCase === false &&
+    isNumber(Code[I - 1]) === Code[I - 1]
+  ) {
     stack = stack.concat(Code[I]);
     floatCase = true;
     return;
   } else {
     tokensArray.push(`${Code[I]}`);
     tokenTypesArray.push(`delimiter (period)`);
+  }
+};
+
+//---------------------------------------_-----------------------------------------------------------
+
+underscoreCase = () => {
+  if (commentCase) return;
+  if (stack[0] === "'" || stack[0] === '"') {
+    stack = stack.concat(Code[I]);
+    return;
+  }
+
+  //console.log(`${Code[I]} -> delimiter (underscore)`);
+  if (
+    stack !== "" &&
+    isNaN(stack) &&
+    (isLetter(Code[I - 1]) === Code[I - 1] ||
+      isNumber(Code[I - 1]) === Code[I - 1] ||
+      Code[I - 1] === "_")
+  ) {
+    stack = stack.concat(Code[I]);
+    return;
+  } else {
+    if (stack) printStack();
+    tokensArray.push(`${Code[I]}`);
+    tokenTypesArray.push(`delimiter (underscore)`);
   }
 };
 
