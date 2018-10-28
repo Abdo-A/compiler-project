@@ -59,12 +59,21 @@ const saveFile = () => {
 
   for (let i = 0; i < tokensArray.length; i++) {
     fileOutput = fileOutput.concat(
-      `${tokensArray[i]} -> ${tokenTypesArray[i]} \r\n`
+      `${tokensArray[i]}, ${tokenTypesArray[i]} \r\n`
     );
+  }
+
+  //decide the format we want to save as
+  let fileFormat = "txt";
+  if (document.getElementById("textCheckBox").checked === true) {
+    fileFormat = "txt";
+  }
+  if (document.getElementById("excelCheckBox").checked === true) {
+    fileFormat = "csv";
   }
 
   var saveFileButton = document.getElementById("saveFileButton");
   var file = new Blob([fileOutput], { type: "text/plain" });
   saveFileButton.href = URL.createObjectURL(file);
-  saveFileButton.download = "scannerOutput.txt";
+  saveFileButton.download = `scannerOutput.${fileFormat}`;
 };
