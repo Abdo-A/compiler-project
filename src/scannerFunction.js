@@ -20,6 +20,7 @@ scannerFunction = code => {
   commentStack = 0;
   commentCase = false;
   floatCase = false;
+  negativeNumberCase = false;
 
   //mapping the code into the global array, to be available outside the function
   for (let i = 0; i < code.length; i++) {
@@ -142,7 +143,12 @@ const letterCase = () => {
 
 const numberCase = () => {
   if (commentCase) return;
-  stack = stack.concat(Code[I]);
+  if (negativeNumberCase) {
+    stack = stack.concat("-" + Code[I]);
+    negativeNumberCase = false;
+  } else {
+    stack = stack.concat(Code[I]);
+  }
 };
 
 //---------------------------------------()-----------------------------------------------------------
@@ -404,6 +410,12 @@ const operatorCase = () => {
   if (stack !== "") {
     printStack();
   }
+
+  if (Code[I] === "-" && !isNumber(Code[I - 1])) {
+    negativeNumberCase = true;
+    return;
+  }
+
   //console.log(`${Code[I]} -> operator`);
   tokensArray.push(`${Code[I]}`);
   tokenTypesArray.push(`operator`);
