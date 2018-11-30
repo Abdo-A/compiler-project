@@ -1,42 +1,72 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Scanner</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-</head>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
 
-<body>
+  <body>
     <div id="pageContainer">
-        <!--CODE HALF-->
-        <div id="codeHalf">
-            <textarea type="text" id="codeContainer" placeholder="Enter your code.."></textarea>
-            <button onclick="scanWrittenCode()" id="startScanButton">Scan Code</button>
+      <div id="buttonsContainer">
+        <button class="choiceButton">Code</button>
+        <button class="choiceButton">Scanner Output</button>
+        <button class="choiceButton">Parser Output</button>
+      </div>
 
-            <div id="fileInputContainer">OR: <input type="file" id="file" /></div>
-            <button onclick="scanFileCode()" id="startScanButton">Scan Code</button>
-        </div>
+      <!-- CODE PART -->
+      <div id="codePart">
+        <textarea
+          type="text"
+          id="codeContainer"
+          placeholder="Enter your code.."
+        ></textarea>
+        <button onclick="scanWrittenCode()" id="startScanButton">
+          Scan and Parse Code
+        </button>
 
-        <!--RESULT HALF-->
-        <div id="resultHalf">
-            <table style="width:100%">
-                <tr>
-                    <th>Token</th>
-                    <th>Token Type</th>
-                </tr>
-                <div></div>
-            </table>
-            <div id="fileOutputContainer">You also can
-                <a href="" id="saveFileButton" onclick="saveFile()">Save output as a</a>
-                <input type="radio" name="type" value="text" checked id="textCheckBox" />Text
-                <input type="radio" name="type" value="excel" id="excelCheckBox" />Excel
-            </div>
+        <div id="fileInputContainer">OR: <input type="file" id="file" /></div>
+        <button onclick="scanFileCode()" id="startScanButton">
+          Scan and Parse Code
+        </button>
+      </div>
+
+      <!-- SCANNER PART -->
+      <div id="scannerPart">
+        <table style="width:100%">
+          <tr>
+            <th>Token</th>
+            <th>Token Type</th>
+          </tr>
+          <div></div>
+        </table>
+
+        <div id="fileOutputContainer">
+          You also can
+          <a href="" id="saveFileButton" onclick="saveFile()"
+            >Save output as a</a
+          >
+          <input
+            type="radio"
+            name="type"
+            value="text"
+            checked
+            id="textCheckBox"
+          />Text
+          <input
+            type="radio"
+            name="type"
+            value="excel"
+            id="excelCheckBox"
+          />Excel
         </div>
+      </div>
     </div>
+
+    <!-- PARSER PART -->
+    <div id="parserPart"><h1>Hello, I am parse part</h1></div>
 
     <script src="script.js"></script>
     <script src="scannerFunction.js"></script>
-</body>
-
+  </body>
 </html>
