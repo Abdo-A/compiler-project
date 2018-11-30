@@ -1,79 +1,45 @@
 //Variables:
 const codeContainer = document.getElementById("codeContainer");
+
+const codePart = document.getElementById("codePart");
+const scannerPart = document.getElementById("scannerPart");
+const parserPart = document.getElementById("parserPart");
+
 const table = document.getElementsByTagName("table")[0];
 const fileInputContainer = document.getElementById("fileInputContainer");
+
+const choiceButton1 = document.getElementById("choiceButton1");
+const choiceButton2 = document.getElementById("choiceButton2");
+const choiceButton3 = document.getElementById("choiceButton3");
 
 //Focus on input
 codeContainer.focus();
 
-//Scan Written Code
-const scanWrittenCode = () => {
-  //get code
-  let code = codeContainer.value;
+//Handle clicking top buttons
+const showPart = indicator => {
+  if (indicator === "code") {
+    choiceButton1.classList.remove("disabledButton");
+    choiceButton2.classList.add("disabledButton");
+    choiceButton3.classList.add("disabledButton");
 
-  scanCodeAndShowResult(code);
-};
+    codePart.classList.remove("dontShow");
+    scannerPart.classList.add("dontShow");
+    parserPart.classList.add("dontShow");
+  } else if (indicator === "scanner") {
+    choiceButton1.classList.add("disabledButton");
+    choiceButton2.classList.remove("disabledButton");
+    choiceButton3.classList.add("disabledButton");
 
-//Scan File Code
-const scanFileCode = () => {
-  //get code
-  const reader = new FileReader();
-  const file = document.getElementById("file").files[0];
-  let code;
-  reader.addEventListener("load", () => {
-    code = reader.result;
-    console.log(reader.result);
-  });
-  reader.readAsText(file, "UTF-8");
+    codePart.classList.add("dontShow");
+    scannerPart.classList.remove("dontShow");
+    parserPart.classList.add("dontShow");
+  } else if (indicator === "parser") {
+    choiceButton1.classList.add("disabledButton");
+    choiceButton2.classList.add("disabledButton");
+    choiceButton3.classList.remove("disabledButton");
 
-  setTimeout(() => {
-    scanCodeAndShowResult(code);
-  }, 200);
-};
-
-const scanCodeAndShowResult = code => {
-  //clear output
-  table.innerHTML = `<tr>
-  <th>Token</th>
-  <th>Token Type</th>
-</tr>
-  `;
-
-  //scan code
-  scannerFunction(code);
-
-  //show result
-  for (let i = 0; i < tokensArray.length; i++) {
-    table.innerHTML += `
-    <tr>
-        <td>${tokensArray[i]}</td>
-        <td>${tokenTypesArray[i]}</td>
-    </tr>
-    `;
+    codePart.classList.add("dontShow");
+    scannerPart.classList.add("dontShow");
+    parserPart.classList.remove("dontShow");
   }
-};
-
-const saveFile = () => {
-  //save result into a string
-  let fileOutput = "";
-
-  for (let i = 0; i < tokensArray.length; i++) {
-    fileOutput = fileOutput.concat(
-      `${tokensArray[i]}, ${tokenTypesArray[i]} \r\n`
-    );
-  }
-
-  //decide the format we want to save as
-  let fileFormat = "txt";
-  if (document.getElementById("textCheckBox").checked === true) {
-    fileFormat = "txt";
-  }
-  if (document.getElementById("excelCheckBox").checked === true) {
-    fileFormat = "csv";
-  }
-
-  var saveFileButton = document.getElementById("saveFileButton");
-  var file = new Blob([fileOutput], { type: "text/plain" });
-  saveFileButton.href = URL.createObjectURL(file);
-  saveFileButton.download = `scannerOutput.${fileFormat}`;
 };

@@ -3,15 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <title>Scanner</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="style/mainStyle.css" />
+    <link rel="stylesheet" type="text/css" href="style/codeStyle.css" />
+    <link rel="stylesheet" type="text/css" href="style/scannerStyle.css" />
+    <link rel="stylesheet" type="text/css" href="style/parserStyle.css" />
   </head>
 
   <body>
     <div id="pageContainer">
       <div id="buttonsContainer">
-        <button class="choiceButton">Code</button>
-        <button class="choiceButton">Scanner Output</button>
-        <button class="choiceButton">Parser Output</button>
+        <button
+          id="choiceButton1"
+          class="choiceButton"
+          onclick="showPart('code')"
+        >
+          Code
+        </button>
+        <button
+          id="choiceButton2"
+          class="choiceButton disabledButton"
+          onclick="showPart('scanner')"
+        >
+          Scanner Output
+        </button>
+        <button
+          id="choiceButton3"
+          class="choiceButton disabledButton"
+          onclick="showPart('parser')"
+        >
+          Parser Output
+        </button>
       </div>
 
       <!-- CODE PART -->
@@ -32,7 +53,7 @@
       </div>
 
       <!-- SCANNER PART -->
-      <div id="scannerPart">
+      <div id="scannerPart" class="dontShow">
         <table style="width:100%">
           <tr>
             <th>Token</th>
@@ -61,12 +82,15 @@
           />Excel
         </div>
       </div>
+
+      <!-- PARSER PART -->
+      <div id="parserPart" class="dontShow">
+        <h1>Hello, I am parse part</h1>
+      </div>
     </div>
 
-    <!-- PARSER PART -->
-    <div id="parserPart"><h1>Hello, I am parse part</h1></div>
-
     <script src="script.js"></script>
+    <script src="scannerHelpers.js"></script>
     <script src="scannerFunction.js"></script>
   </body>
 </html>

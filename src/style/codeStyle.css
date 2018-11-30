@@ -1,0 +1,31 @@
+#codePart {
+  height: 100%;
+  background-color: navy;
+  overflow: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+#codeContainer {
+  height: 80%;
+  background-color: black;
+  color: bisque;
+  font-size: xx-large;
+  padding: 20px;
+  font-weight: bold;
+}
+
+#fileInputContainer {
+  color: aliceblue;
+  margin-top: 20px;
+}
+
+#startScanButton {
+  height: 30px;
+  background-color: rgb(43, 37, 37);
+  color: antiquewhite;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
