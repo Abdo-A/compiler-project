@@ -6,7 +6,6 @@ const scannerPart = document.getElementById("scannerPart");
 const parserPart = document.getElementById("parserPart");
 
 const table = document.getElementsByTagName("table")[0];
-const fileInputContainer = document.getElementById("fileInputContainer");
 
 const choiceButton1 = document.getElementById("choiceButton1");
 const choiceButton2 = document.getElementById("choiceButton2");
@@ -14,6 +13,17 @@ const choiceButton3 = document.getElementById("choiceButton3");
 
 //Focus on input
 codeContainer.focus();
+
+//Scan and parse
+const scanAndParse = type => {
+  if (type === "written") {
+    scanWrittenCode();
+    parserFunction();
+  } else if (type === "file") {
+    scanFileCode();
+    parserFunction();
+  }
+};
 
 //Handle clicking top buttons
 const showPart = indicator => {

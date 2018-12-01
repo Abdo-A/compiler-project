@@ -11,7 +11,7 @@ let commentStack = 0; //number of nested comments (in case any existed)
 
 let floatCase = false; //global variable to check if the current token is a float number
 
-scannerFunction = code => {
+const scannerFunction = code => {
   //clearing old data
   tokensArray = [];
   tokenTypesArray = [];

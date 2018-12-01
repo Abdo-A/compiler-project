@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Scanner</title>
+    <title>Compiler</title>
     <link rel="stylesheet" type="text/css" href="style/mainStyle.css" />
     <link rel="stylesheet" type="text/css" href="style/codeStyle.css" />
     <link rel="stylesheet" type="text/css" href="style/scannerStyle.css" />
@@ -42,12 +42,12 @@
           id="codeContainer"
           placeholder="Enter your code.."
         ></textarea>
-        <button onclick="scanWrittenCode()" id="startScanButton">
+        <button onclick="scanAndParse('written')" id="startScanButton">
           Scan and Parse Code
         </button>
 
         <div id="fileInputContainer">OR: <input type="file" id="file" /></div>
-        <button onclick="scanFileCode()" id="startScanButton">
+        <button onclick="scanAndParse('file')" id="startScanButton">
           Scan and Parse Code
         </button>
       </div>
@@ -90,7 +90,8 @@
     </div>
 
     <script src="script.js"></script>
-    <script src="scannerHelpers.js"></script>
-    <script src="scannerFunction.js"></script>
+    <script src="scanner/scannerFunction.js"></script>
+    <script src="scanner/scannerHelpers.js"></script>
+    <script src="parser/parserFunction.js"></script>
   </body>
 </html>
