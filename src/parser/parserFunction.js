@@ -71,7 +71,7 @@ const parserFunction = () => {
 
   const writeStatement = () => {
     console.log("writeStatement");
-    match("read", tokensArray);
+    match("write", tokensArray);
     expression();
   };
 
