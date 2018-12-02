@@ -10,6 +10,7 @@ let commentCase = false; //global variable to check if the current token is in a
 let commentStack = 0; //number of nested comments (in case any existed)
 
 let floatCase = false; //global variable to check if the current token is a float number
+let negativeNumberCase = false;
 
 const scannerFunction = code => {
   //clearing old data
@@ -220,7 +221,7 @@ const semicolonCase = () => {
   }
   //console.log(`${Code[I]} -> delimiter (semicolon)`);
   tokensArray.push(`${Code[I]}`);
-  tokenTypesArray.push(`delimiter (semicolon)`);
+  tokenTypesArray.push(`semicolon`);
 };
 
 //---------------------------------------,-----------------------------------------------------------
@@ -411,7 +412,12 @@ const operatorCase = () => {
     printStack();
   }
 
-  if (Code[I] === "-" && !isNumber(Code[I - 1])) {
+  if (
+    Code[I] === "-" &&
+    !isNumber(Code[I - 1]) &&
+    tokenTypesArray[tokenTypesArray.length - 1] !== "identifier" &&
+    tokensArray[tokensArray.length - 1] !== ")"
+  ) {
     negativeNumberCase = true;
     return;
   }
