@@ -12,7 +12,7 @@ const parserFunction = () => {
   };
 
   const statementSequence = () => {
-    console.log("statementSequence");
+    //console.log("statementSequence");
     statement();
     while (tokenTypesArray[I] === "semicolon") {
       match("semicolon", tokenTypesArray);
@@ -21,7 +21,7 @@ const parserFunction = () => {
   };
 
   const statement = () => {
-    console.log("statement");
+    //console.log("statement");
     if (tokensArray[I] === "if") {
       ifStatement();
     } else if (tokensArray[I] === "repeat") {
@@ -76,7 +76,7 @@ const parserFunction = () => {
   };
 
   const expression = () => {
-    console.log("expression");
+    //console.log("expression");
     simpleExpression();
     if (
       tokensArray[I] === ">" ||
@@ -89,7 +89,12 @@ const parserFunction = () => {
   };
 
   const comparisonOperator = () => {
-    console.log("comparisonOperator");
+    //console.log("comparisonOperator");
+    console.log(
+      `comparison operation between ${tokensArray[I - 1]} and ${
+        tokensArray[I + 1]
+      }`
+    );
     if (tokensArray[I] === ">") {
       match(">", tokensArray);
     } else if (tokensArray[I] === "<") {
@@ -100,7 +105,7 @@ const parserFunction = () => {
   };
 
   const simpleExpression = () => {
-    console.log("simpleExpression");
+    //console.log("simpleExpression");
     term();
     while (tokensArray[I] === "+" || tokensArray[I] === "-") {
       addop();
@@ -109,7 +114,10 @@ const parserFunction = () => {
   };
 
   const addop = () => {
-    console.log("addop");
+    //console.log("addop");
+    console.log(
+      `adding operation between ${tokensArray[I - 1]} and ${tokensArray[I + 1]}`
+    );
     if (tokensArray[I] === "+") {
       match("+", tokensArray);
     } else {
@@ -118,7 +126,7 @@ const parserFunction = () => {
   };
 
   const term = () => {
-    console.log("term");
+    //console.log("term");
     factor();
     while (tokensArray[I] === "*" || tokensArray[I] === "/") {
       mulop();
@@ -127,7 +135,12 @@ const parserFunction = () => {
   };
 
   const mulop = () => {
-    console.log("mulop");
+    //console.log("mulop");
+    console.log(
+      `multiplication operation between ${tokensArray[I - 1]} and ${
+        tokensArray[I + 1]
+      }`
+    );
     if (tokensArray[I] === "*") {
       match("*", tokensArray);
     } else {
@@ -136,7 +149,7 @@ const parserFunction = () => {
   };
 
   const factor = () => {
-    console.log("factor");
+    //console.log("factor");
     if (tokenTypesArray[I] === "number") {
       match("number", tokenTypesArray);
     } else if (tokenTypesArray[I] === "identifier") {
@@ -152,7 +165,7 @@ const parserFunction = () => {
 
   const match = (k, array) => {
     if (array[I] === k) {
-      console.log("matched " + k);
+      //console.log("matched " + k);
       I++;
     } else {
       error("Can't evaluate " + k);
