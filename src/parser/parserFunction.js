@@ -43,19 +43,38 @@ const parserFunction = () => {
   };
 
   const ifStatement = (fatherLevel, fatherOrder) => {
-    dictionary.push({
+    let myIdentity = {
       name: "ifStatement",
       level: currentLevel,
       order: orders[currentLevel],
       fatherLevel,
       fatherOrder
-    });
+    };
 
     console.log("ifStatement");
 
     match("if", tokensArray);
 
-    expression();
+    let expressionType;
+    let expressionSign;
+    let expressionParameter1;
+    let expressionParameter2;
+
+    const expressionSetter = (type, sign, parameter1, parameter2) => {
+      expressionType = type;
+      expressionSign = sign;
+      expressionParameter1 = parameter1;
+      expressionParameter2 = parameter2;
+    };
+
+    expression(expressionSetter);
+
+    myIdentity["expression"] = {
+      expressionType,
+      expressionSign,
+      expressionParameter1,
+      expressionParameter2
+    };
 
     match("then", tokensArray);
 
@@ -73,16 +92,18 @@ const parserFunction = () => {
       currentLevel--;
     }
     match("end", tokensArray);
+
+    dictionary.push(myIdentity);
   };
 
   const repeatStatement = (fatherLevel, fatherOrder) => {
-    dictionary.push({
+    let myIdentity = {
       name: "repeatStatement",
       level: currentLevel,
       order: orders[currentLevel],
       fatherLevel,
       fatherOrder
-    });
+    };
 
     console.log("repeatStatement");
     match("repeat", tokensArray);
@@ -95,23 +116,66 @@ const parserFunction = () => {
 
     match("until", tokensArray);
 
-    expression();
+    let expressionType;
+    let expressionSign;
+    let expressionParameter1;
+    let expressionParameter2;
+
+    const expressionSetter = (type, sign, parameter1, parameter2) => {
+      expressionType = type;
+      expressionSign = sign;
+      expressionParameter1 = parameter1;
+      expressionParameter2 = parameter2;
+    };
+
+    expression(expressionSetter);
+
+    myIdentity["expression"] = {
+      expressionType,
+      expressionSign,
+      expressionParameter1,
+      expressionParameter2
+    };
+
+    dictionary.push(myIdentity);
   };
 
   const assignStatement = (fatherLevel, fatherOrder) => {
-    dictionary.push({
+    let myIdentity = {
       name: "assignStatement",
       level: currentLevel,
       order: orders[currentLevel],
       fatherLevel,
-      fatherOrder
-    });
+      fatherOrder,
+      assignVariable: tokensArray[I]
+    };
 
     console.log(`assignStatement for ${tokensArray[I]}`);
     match("identifier", tokenTypesArray);
     match(":=", tokensArray);
 
-    expression();
+    let expressionType;
+    let expressionSign;
+    let expressionParameter1;
+    let expressionParameter2;
+
+    const expressionSetter = (type, sign, parameter1, parameter2) => {
+      expressionType = type;
+      expressionSign = sign;
+      expressionParameter1 = parameter1;
+      expressionParameter2 = parameter2;
+    };
+
+    expression(expressionSetter);
+
+    myIdentity["expression"] = {
+      expressionType,
+      expressionSign,
+      expressionParameter1,
+      expressionParameter2
+    };
+
+    dictionary.push(myIdentity);
   };
 
   const readStatement = (fatherLevel, fatherOrder) => {
@@ -120,7 +184,8 @@ const parserFunction = () => {
       level: currentLevel,
       order: orders[currentLevel],
       fatherLevel,
-      fatherOrder
+      fatherOrder,
+      readVariable: tokensArray[I + 1]
     });
 
     console.log(`readStatement for ${tokensArray[I + 1]}`);
@@ -134,7 +199,9 @@ const parserFunction = () => {
       level: currentLevel,
       order: orders[currentLevel],
       fatherLevel,
-      fatherOrder
+      fatherOrder,
+      writeVariable: tokensArray[I + 1],
+      writeVariableType: tokenTypesArray[I + 1]
     });
 
     console.log(`writeStatement for ${tokensArray[I + 1]}`);
@@ -143,26 +210,36 @@ const parserFunction = () => {
     expression();
   };
 
-  const expression = () => {
+  const expression = expressionTypeSetter => {
     //console.log("expression");
-    simpleExpression();
+    simpleExpression(expressionTypeSetter);
     if (
       tokensArray[I] === ">" ||
       tokensArray[I] === "<" ||
       tokensArray[I] === "="
     ) {
-      comparisonOperator();
+      comparisonOperator(expressionTypeSetter);
       simpleExpression();
     }
   };
 
-  const comparisonOperator = () => {
+  const comparisonOperator = expressionTypeSetter => {
     //console.log("comparisonOperator");
     console.log(
       `comparison operation between ${tokensArray[I - 1]} and ${
         tokensArray[I + 1]
       }`
     );
+
+    if (expressionTypeSetter) {
+      expressionTypeSetter(
+        "op",
+        tokensArray[I],
+        tokensArray[I - 1],
+        tokensArray[I + 1]
+      );
+    }
+
     if (tokensArray[I] === ">") {
       match(">", tokensArray);
     } else if (tokensArray[I] === "<") {
@@ -172,20 +249,30 @@ const parserFunction = () => {
     }
   };
 
-  const simpleExpression = () => {
+  const simpleExpression = expressionTypeSetter => {
     //console.log("simpleExpression");
-    term();
+    term(expressionTypeSetter);
     while (tokensArray[I] === "+" || tokensArray[I] === "-") {
-      addop();
+      addop(expressionTypeSetter);
       term();
     }
   };
 
-  const addop = () => {
+  const addop = expressionTypeSetter => {
     //console.log("addop");
     console.log(
       `adding operation between ${tokensArray[I - 1]} and ${tokensArray[I + 1]}`
     );
+
+    if (expressionTypeSetter) {
+      expressionTypeSetter(
+        "op",
+        tokensArray[I],
+        tokensArray[I - 1],
+        tokensArray[I + 1]
+      );
+    }
+
     if (tokensArray[I] === "+") {
       match("+", tokensArray);
     } else {
@@ -193,22 +280,32 @@ const parserFunction = () => {
     }
   };
 
-  const term = () => {
+  const term = expressionTypeSetter => {
     //console.log("term");
-    factor();
+    factor(expressionTypeSetter);
     while (tokensArray[I] === "*" || tokensArray[I] === "/") {
-      mulop();
+      mulop(expressionTypeSetter);
       factor();
     }
   };
 
-  const mulop = () => {
+  const mulop = expressionTypeSetter => {
     //console.log("mulop");
     console.log(
       `multiplication operation between ${tokensArray[I - 1]} and ${
         tokensArray[I + 1]
       }`
     );
+
+    if (expressionTypeSetter) {
+      expressionTypeSetter(
+        "op",
+        tokensArray[I],
+        tokensArray[I - 1],
+        tokensArray[I + 1]
+      );
+    }
+
     if (tokensArray[I] === "*") {
       match("*", tokensArray);
     } else {
@@ -216,8 +313,11 @@ const parserFunction = () => {
     }
   };
 
-  const factor = () => {
+  const factor = expressionTypeSetter => {
     //console.log("factor");
+    if (expressionTypeSetter)
+      expressionTypeSetter("const", null, tokensArray[I], null);
+
     if (tokenTypesArray[I] === "number") {
       match("number", tokenTypesArray);
     } else if (tokenTypesArray[I] === "identifier") {
