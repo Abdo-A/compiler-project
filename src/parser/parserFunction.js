@@ -19,10 +19,10 @@ const parserFunction = () => {
 
   const statementSequence = (fatherLevel, fatherOrder) => {
     //console.log("statementSequence");
-    statement(fatherLevel - 1, fatherOrder + 1);
+    statement(fatherLevel, fatherOrder);
     while (tokenTypesArray[I] === "semicolon") {
       match("semicolon", tokenTypesArray);
-      statement(fatherLevel - 1, fatherOrder + 1);
+      statement(fatherLevel, fatherOrder);
     }
   };
 
@@ -59,15 +59,17 @@ const parserFunction = () => {
 
     match("then", tokensArray);
 
+    const myLevel = currentLevel;
+
     currentLevel++;
-    statementSequence(currentLevel, orders[currentLevel]);
+    statementSequence(myLevel, orders[myLevel]);
     currentLevel--;
 
     if (tokensArray[I] === "else") {
       match("else", tokensArray);
 
       currentLevel++;
-      statementSequence(currentLevel, orders[currentLevel]);
+      statementSequence(myLevel, orders[myLevel]);
       currentLevel--;
     }
     match("end", tokensArray);
@@ -85,8 +87,10 @@ const parserFunction = () => {
     console.log("repeatStatement");
     match("repeat", tokensArray);
 
+    const myLevel = currentLevel;
+
     currentLevel++;
-    statementSequence(currentLevel, orders[currentLevel]);
+    statementSequence(myLevel, orders[myLevel]);
     currentLevel--;
 
     match("until", tokensArray);
