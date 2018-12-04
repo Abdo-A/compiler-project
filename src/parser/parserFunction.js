@@ -1,6 +1,12 @@
 const parserFunction = () => {
   I = 0; //global holder for the current index of the token types array produced by scanner
 
+  let dictionary = []; //array that has all the statements and info about them
+
+  let currentLevel = 1; //current level of statement
+
+  let orders = { 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1 };
+
   //We have access to tokensArray
 
   //We have access to tokenTypesArray
@@ -33,45 +39,93 @@ const parserFunction = () => {
     } else {
       assignStatement();
     }
+    orders[currentLevel]++;
   };
 
   const ifStatement = () => {
+    dictionary.push({
+      name: "ifStatement",
+      level: currentLevel,
+      order: orders[currentLevel]
+    });
+
     console.log("ifStatement");
+
     match("if", tokensArray);
+
     expression();
+
     match("then", tokensArray);
+
+    currentLevel++;
     statementSequence();
+    currentLevel--;
+
     if (tokensArray[I] === "else") {
       match("else", tokensArray);
+
+      currentLevel++;
       statementSequence();
+      currentLevel--;
     }
     match("end", tokensArray);
   };
 
   const repeatStatement = () => {
+    dictionary.push({
+      name: "repeatStatement",
+      level: currentLevel,
+      order: orders[currentLevel]
+    });
+
     console.log("repeatStatement");
     match("repeat", tokensArray);
+
+    currentLevel++;
     statementSequence();
+    currentLevel--;
+
     match("until", tokensArray);
+
     expression();
   };
 
   const assignStatement = () => {
-    console.log("assignStatement");
+    dictionary.push({
+      name: "assignStatement",
+      level: currentLevel,
+      order: orders[currentLevel]
+    });
+
+    console.log(`assignStatement for ${tokensArray[I]}`);
     match("identifier", tokenTypesArray);
     match(":=", tokensArray);
+
     expression();
   };
 
   const readStatement = () => {
-    console.log("readStatement");
+    dictionary.push({
+      name: "readStatement",
+      level: currentLevel,
+      order: orders[currentLevel]
+    });
+
+    console.log(`readStatement for ${tokensArray[I + 1]}`);
     match("read", tokensArray);
     match("identifier", tokenTypesArray);
   };
 
   const writeStatement = () => {
-    console.log("writeStatement");
+    dictionary.push({
+      name: "writeStatement",
+      level: currentLevel,
+      order: orders[currentLevel]
+    });
+
+    console.log(`writeStatement for ${tokensArray[I + 1]}`);
     match("write", tokensArray);
+
     expression();
   };
 
@@ -178,4 +232,5 @@ const parserFunction = () => {
 
   //----------------------------------------MAIN------------------------------------------
   program();
+  console.log(dictionary);
 };
