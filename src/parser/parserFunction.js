@@ -17,36 +17,38 @@ const parserFunction = () => {
     statementSequence();
   };
 
-  const statementSequence = () => {
+  const statementSequence = (fatherLevel, fatherOrder) => {
     //console.log("statementSequence");
-    statement();
+    statement(fatherLevel - 1, fatherOrder + 1);
     while (tokenTypesArray[I] === "semicolon") {
       match("semicolon", tokenTypesArray);
-      statement();
+      statement(fatherLevel - 1, fatherOrder + 1);
     }
   };
 
-  const statement = () => {
+  const statement = (fatherLevel, fatherOrder) => {
     //console.log("statement");
     if (tokensArray[I] === "if") {
-      ifStatement();
+      ifStatement(fatherLevel, fatherOrder);
     } else if (tokensArray[I] === "repeat") {
-      repeatStatement();
+      repeatStatement(fatherLevel, fatherOrder);
     } else if (tokensArray[I] === "read") {
-      readStatement();
+      readStatement(fatherLevel, fatherOrder);
     } else if (tokensArray[I] === "write") {
-      writeStatement();
+      writeStatement(fatherLevel, fatherOrder);
     } else {
-      assignStatement();
+      assignStatement(fatherLevel, fatherOrder);
     }
     orders[currentLevel]++;
   };
 
-  const ifStatement = () => {
+  const ifStatement = (fatherLevel, fatherOrder) => {
     dictionary.push({
       name: "ifStatement",
       level: currentLevel,
-      order: orders[currentLevel]
+      order: orders[currentLevel],
+      fatherLevel,
+      fatherOrder
     });
 
     console.log("ifStatement");
@@ -58,31 +60,33 @@ const parserFunction = () => {
     match("then", tokensArray);
 
     currentLevel++;
-    statementSequence();
+    statementSequence(currentLevel, orders[currentLevel]);
     currentLevel--;
 
     if (tokensArray[I] === "else") {
       match("else", tokensArray);
 
       currentLevel++;
-      statementSequence();
+      statementSequence(currentLevel, orders[currentLevel]);
       currentLevel--;
     }
     match("end", tokensArray);
   };
 
-  const repeatStatement = () => {
+  const repeatStatement = (fatherLevel, fatherOrder) => {
     dictionary.push({
       name: "repeatStatement",
       level: currentLevel,
-      order: orders[currentLevel]
+      order: orders[currentLevel],
+      fatherLevel,
+      fatherOrder
     });
 
     console.log("repeatStatement");
     match("repeat", tokensArray);
 
     currentLevel++;
-    statementSequence();
+    statementSequence(currentLevel, orders[currentLevel]);
     currentLevel--;
 
     match("until", tokensArray);
@@ -90,11 +94,13 @@ const parserFunction = () => {
     expression();
   };
 
-  const assignStatement = () => {
+  const assignStatement = (fatherLevel, fatherOrder) => {
     dictionary.push({
       name: "assignStatement",
       level: currentLevel,
-      order: orders[currentLevel]
+      order: orders[currentLevel],
+      fatherLevel,
+      fatherOrder
     });
 
     console.log(`assignStatement for ${tokensArray[I]}`);
@@ -104,11 +110,13 @@ const parserFunction = () => {
     expression();
   };
 
-  const readStatement = () => {
+  const readStatement = (fatherLevel, fatherOrder) => {
     dictionary.push({
       name: "readStatement",
       level: currentLevel,
-      order: orders[currentLevel]
+      order: orders[currentLevel],
+      fatherLevel,
+      fatherOrder
     });
 
     console.log(`readStatement for ${tokensArray[I + 1]}`);
@@ -116,11 +124,13 @@ const parserFunction = () => {
     match("identifier", tokenTypesArray);
   };
 
-  const writeStatement = () => {
+  const writeStatement = (fatherLevel, fatherOrder) => {
     dictionary.push({
       name: "writeStatement",
       level: currentLevel,
-      order: orders[currentLevel]
+      order: orders[currentLevel],
+      fatherLevel,
+      fatherOrder
     });
 
     console.log(`writeStatement for ${tokensArray[I + 1]}`);
