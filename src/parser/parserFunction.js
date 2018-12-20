@@ -50,7 +50,6 @@ const parserFunction = () => {
       fatherLevel,
       fatherOrder
     };
-
     console.log("ifStatement");
 
     match("if", tokensArray);
@@ -61,10 +60,40 @@ const parserFunction = () => {
     let expressionParameter2;
 
     const expressionSetter = (type, sign, parameter1, parameter2) => {
-      expressionType = type;
-      expressionSign = sign;
-      expressionParameter1 = parameter1;
-      expressionParameter2 = parameter2;
+      if (
+        expressionParameter2 &&
+        expressionParameter2.expressionParameter2 &&
+        expressionParameter2.expressionParameter2.expressionParameter2
+      ) {
+        expressionParameter2.expressionParameter2.expressionParameter2 = {
+          expressionType: type,
+          expressionSign: sign,
+          expressionParameter1: parameter1,
+          expressionParameter2: parameter2
+        };
+      } else if (
+        expressionParameter2 &&
+        expressionParameter2.expressionParameter2
+      ) {
+        expressionParameter2.expressionParameter2 = {
+          expressionType: type,
+          expressionSign: sign,
+          expressionParameter1: parameter1,
+          expressionParameter2: parameter2
+        };
+      } else if (expressionParameter2) {
+        expressionParameter2 = {
+          expressionType: type,
+          expressionSign: sign,
+          expressionParameter1: parameter1,
+          expressionParameter2: parameter2
+        };
+      } else {
+        expressionType = type;
+        expressionSign = sign;
+        expressionParameter1 = parameter1;
+        expressionParameter2 = parameter2;
+      }
     };
 
     expression(expressionSetter);
@@ -122,10 +151,40 @@ const parserFunction = () => {
     let expressionParameter2;
 
     const expressionSetter = (type, sign, parameter1, parameter2) => {
-      expressionType = type;
-      expressionSign = sign;
-      expressionParameter1 = parameter1;
-      expressionParameter2 = parameter2;
+      if (
+        expressionParameter2 &&
+        expressionParameter2.expressionParameter2 &&
+        expressionParameter2.expressionParameter2.expressionParameter2
+      ) {
+        expressionParameter2.expressionParameter2.expressionParameter2 = {
+          expressionType: type,
+          expressionSign: sign,
+          expressionParameter1: parameter1,
+          expressionParameter2: parameter2
+        };
+      } else if (
+        expressionParameter2 &&
+        expressionParameter2.expressionParameter2
+      ) {
+        expressionParameter2.expressionParameter2 = {
+          expressionType: type,
+          expressionSign: sign,
+          expressionParameter1: parameter1,
+          expressionParameter2: parameter2
+        };
+      } else if (expressionParameter2) {
+        expressionParameter2 = {
+          expressionType: type,
+          expressionSign: sign,
+          expressionParameter1: parameter1,
+          expressionParameter2: parameter2
+        };
+      } else {
+        expressionType = type;
+        expressionSign = sign;
+        expressionParameter1 = parameter1;
+        expressionParameter2 = parameter2;
+      }
     };
 
     expression(expressionSetter);
@@ -160,10 +219,40 @@ const parserFunction = () => {
     let expressionParameter2;
 
     const expressionSetter = (type, sign, parameter1, parameter2) => {
-      expressionType = type;
-      expressionSign = sign;
-      expressionParameter1 = parameter1;
-      expressionParameter2 = parameter2;
+      if (
+        expressionParameter2 &&
+        expressionParameter2.expressionParameter2 &&
+        expressionParameter2.expressionParameter2.expressionParameter2
+      ) {
+        expressionParameter2.expressionParameter2.expressionParameter2 = {
+          expressionType: type,
+          expressionSign: sign,
+          expressionParameter1: parameter1,
+          expressionParameter2: parameter2
+        };
+      } else if (
+        expressionParameter2 &&
+        expressionParameter2.expressionParameter2
+      ) {
+        expressionParameter2.expressionParameter2 = {
+          expressionType: type,
+          expressionSign: sign,
+          expressionParameter1: parameter1,
+          expressionParameter2: parameter2
+        };
+      } else if (expressionParameter2) {
+        expressionParameter2 = {
+          expressionType: type,
+          expressionSign: sign,
+          expressionParameter1: parameter1,
+          expressionParameter2: parameter2
+        };
+      } else {
+        expressionType = type;
+        expressionSign = sign;
+        expressionParameter1 = parameter1;
+        expressionParameter2 = parameter2;
+      }
     };
 
     expression(expressionSetter);
@@ -210,8 +299,8 @@ const parserFunction = () => {
     expression();
   };
 
-  const expression = expressionTypeSetter => {
-    //console.log("expression");
+  const expression = (expressionTypeSetter) => {
+    console.log("expression");
     simpleExpression(expressionTypeSetter);
     if (
       tokensArray[I] === ">" ||
@@ -223,8 +312,8 @@ const parserFunction = () => {
     }
   };
 
-  const comparisonOperator = expressionTypeSetter => {
-    //console.log("comparisonOperator");
+  const comparisonOperator = (expressionTypeSetter) => {
+    console.log("comparisonOperator");
     console.log(
       `comparison operation between ${tokensArray[I - 1]} and ${
         tokensArray[I + 1]
@@ -249,8 +338,8 @@ const parserFunction = () => {
     }
   };
 
-  const simpleExpression = expressionTypeSetter => {
-    //console.log("simpleExpression");
+  const simpleExpression = (expressionTypeSetter) => {
+    console.log("simpleExpression");
     term(expressionTypeSetter);
     while (tokensArray[I] === "+" || tokensArray[I] === "-") {
       addop(expressionTypeSetter);
@@ -258,8 +347,8 @@ const parserFunction = () => {
     }
   };
 
-  const addop = expressionTypeSetter => {
-    //console.log("addop");
+  const addop = (expressionTypeSetter) => {
+    console.log("addop");
     console.log(
       `adding operation between ${tokensArray[I - 1]} and ${tokensArray[I + 1]}`
     );
@@ -280,8 +369,8 @@ const parserFunction = () => {
     }
   };
 
-  const term = expressionTypeSetter => {
-    //console.log("term");
+  const term = (expressionTypeSetter) => {
+    console.log("term");
     factor(expressionTypeSetter);
     while (tokensArray[I] === "*" || tokensArray[I] === "/") {
       mulop(expressionTypeSetter);
@@ -289,8 +378,8 @@ const parserFunction = () => {
     }
   };
 
-  const mulop = expressionTypeSetter => {
-    //console.log("mulop");
+  const mulop = (expressionTypeSetter) => {
+    console.log("mulop");
     console.log(
       `multiplication operation between ${tokensArray[I - 1]} and ${
         tokensArray[I + 1]
@@ -313,8 +402,8 @@ const parserFunction = () => {
     }
   };
 
-  const factor = expressionTypeSetter => {
-    //console.log("factor");
+  const factor = (expressionTypeSetter) => {
+    console.log("factor");
     if (expressionTypeSetter)
       expressionTypeSetter("const", null, tokensArray[I], null);
 
@@ -340,7 +429,7 @@ const parserFunction = () => {
     }
   };
 
-  const error = message => {
+  const error = (message) => {
     console.log("An error occured " + message);
   };
 
