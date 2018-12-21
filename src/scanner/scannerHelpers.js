@@ -3,7 +3,12 @@ const scanWrittenCode = () => {
   //get code
   let code = codeContainer.value;
 
-  scanCodeAndShowResult(code);
+  if (code) {
+    scanCodeAndShowResult(code);
+    return true;
+  } else {
+    return false;
+  }
 };
 
 //Scan File Code
@@ -18,12 +23,17 @@ const scanFileCode = () => {
   });
   reader.readAsText(file, "UTF-8");
 
-  setTimeout(() => {
-    scanCodeAndShowResult(code);
-  }, 200);
+  if (code) {
+    setTimeout(() => {
+      scanCodeAndShowResult(code);
+    }, 200);
+    return true;
+  } else {
+    return false;
+  }
 };
 
-const scanCodeAndShowResult = code => {
+const scanCodeAndShowResult = (code) => {
   //clear output
   table.innerHTML = `<tr>
     <th>Token</th>

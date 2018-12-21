@@ -4,3 +4,19 @@
   padding: 20px;
   background-color: #d89f9f;
 }
+.rectangleImage,.ovalImage{
+  width: 120px;
+  height:70px;
+}
+.statementContainer{
+  width: 120px;
+  height:70px;
+  position: absolute;
+}
+.statementName{
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+}
+

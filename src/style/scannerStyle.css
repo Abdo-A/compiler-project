@@ -16,6 +16,10 @@ td {
   text-align: center;
 }
 
+table{
+  margin-bottom: 20px
+}
+
 #saveFileButton {
   background-color: coral;
   padding: 5px;

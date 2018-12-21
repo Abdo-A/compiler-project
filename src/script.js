@@ -15,18 +15,18 @@ const choiceButton3 = document.getElementById("choiceButton3");
 codeContainer.focus();
 
 //Scan and parse
-const scanAndParse = type => {
+const scanAndParse = (type) => {
   if (type === "written") {
-    scanWrittenCode();
-    parserFunction();
+    const scannable = scanWrittenCode();
+    if (scannable) parseCodeAndShowResult();
   } else if (type === "file") {
-    scanFileCode();
-    parserFunction();
+    const scannable = scanFileCode();
+    if (scannable) parseCodeAndShowResult();
   }
 };
 
 //Handle clicking top buttons
-const showPart = indicator => {
+const showPart = (indicator) => {
   if (indicator === "code") {
     choiceButton1.classList.remove("disabledButton");
     choiceButton2.classList.add("disabledButton");

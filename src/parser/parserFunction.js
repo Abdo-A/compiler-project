@@ -1,7 +1,7 @@
+let dictionary = []; //array that has all the statements and info about them
+
 const parserFunction = () => {
   I = 0; //global holder for the current index of the token types array produced by scanner
-
-  let dictionary = []; //array that has all the statements and info about them
 
   let currentLevel = 1; //current level of statement
 
@@ -44,7 +44,7 @@ const parserFunction = () => {
 
   const ifStatement = (fatherLevel, fatherOrder) => {
     let myIdentity = {
-      name: "ifStatement",
+      name: "if",
       level: currentLevel,
       order: orders[currentLevel],
       fatherLevel,
@@ -127,7 +127,7 @@ const parserFunction = () => {
 
   const repeatStatement = (fatherLevel, fatherOrder) => {
     let myIdentity = {
-      name: "repeatStatement",
+      name: "repeat",
       level: currentLevel,
       order: orders[currentLevel],
       fatherLevel,
@@ -201,7 +201,7 @@ const parserFunction = () => {
 
   const assignStatement = (fatherLevel, fatherOrder) => {
     let myIdentity = {
-      name: "assignStatement",
+      name: "assign",
       level: currentLevel,
       order: orders[currentLevel],
       fatherLevel,
@@ -269,7 +269,7 @@ const parserFunction = () => {
 
   const readStatement = (fatherLevel, fatherOrder) => {
     dictionary.push({
-      name: "readStatement",
+      name: "read",
       level: currentLevel,
       order: orders[currentLevel],
       fatherLevel,
@@ -284,7 +284,7 @@ const parserFunction = () => {
 
   const writeStatement = (fatherLevel, fatherOrder) => {
     dictionary.push({
-      name: "writeStatement",
+      name: "write",
       level: currentLevel,
       order: orders[currentLevel],
       fatherLevel,
@@ -300,7 +300,7 @@ const parserFunction = () => {
   };
 
   const expression = (expressionTypeSetter) => {
-    console.log("expression");
+    // console.log("expression");
     simpleExpression(expressionTypeSetter);
     if (
       tokensArray[I] === ">" ||
@@ -313,7 +313,7 @@ const parserFunction = () => {
   };
 
   const comparisonOperator = (expressionTypeSetter) => {
-    console.log("comparisonOperator");
+    // console.log("comparisonOperator");
     console.log(
       `comparison operation between ${tokensArray[I - 1]} and ${
         tokensArray[I + 1]
@@ -339,7 +339,7 @@ const parserFunction = () => {
   };
 
   const simpleExpression = (expressionTypeSetter) => {
-    console.log("simpleExpression");
+    // console.log("simpleExpression");
     term(expressionTypeSetter);
     while (tokensArray[I] === "+" || tokensArray[I] === "-") {
       addop(expressionTypeSetter);
@@ -348,7 +348,7 @@ const parserFunction = () => {
   };
 
   const addop = (expressionTypeSetter) => {
-    console.log("addop");
+    // console.log("addop");
     console.log(
       `adding operation between ${tokensArray[I - 1]} and ${tokensArray[I + 1]}`
     );
@@ -370,7 +370,7 @@ const parserFunction = () => {
   };
 
   const term = (expressionTypeSetter) => {
-    console.log("term");
+    // console.log("term");
     factor(expressionTypeSetter);
     while (tokensArray[I] === "*" || tokensArray[I] === "/") {
       mulop(expressionTypeSetter);
@@ -379,7 +379,7 @@ const parserFunction = () => {
   };
 
   const mulop = (expressionTypeSetter) => {
-    console.log("mulop");
+    // console.log("mulop");
     console.log(
       `multiplication operation between ${tokensArray[I - 1]} and ${
         tokensArray[I + 1]
@@ -403,7 +403,7 @@ const parserFunction = () => {
   };
 
   const factor = (expressionTypeSetter) => {
-    console.log("factor");
+    // console.log("factor");
     if (expressionTypeSetter)
       expressionTypeSetter("const", null, tokensArray[I], null);
 
@@ -435,5 +435,14 @@ const parserFunction = () => {
 
   //----------------------------------------MAIN------------------------------------------
   program();
+
+  dictionary.sort((item1, item2) => {
+    if (item1.level == item2.level) {
+      return item1.order - item2.order;
+    } else {
+      return item1.level - item2.level;
+    }
+  });
+
   console.log(dictionary);
 };
