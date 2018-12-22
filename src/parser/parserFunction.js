@@ -18,31 +18,35 @@ const parserFunction = () => {
   };
 
   const statementSequence = (fatherLevel, fatherOrder) => {
+    const setFatherLevelAndOrder = (level, order) => {
+      fatherLevel = level;
+      fatherOrder = order;
+    };
     //console.log("statementSequence");
-    statement(fatherLevel, fatherOrder);
+    statement(fatherLevel, fatherOrder, setFatherLevelAndOrder);
     while (tokenTypesArray[I] === "semicolon") {
       match("semicolon", tokenTypesArray);
-      statement(fatherLevel, fatherOrder);
+      statement(fatherLevel, fatherOrder, setFatherLevelAndOrder);
     }
   };
 
-  const statement = (fatherLevel, fatherOrder) => {
+  const statement = (fatherLevel, fatherOrder, setFatherLevelAndOrder) => {
     //console.log("statement");
     if (tokensArray[I] === "if") {
-      ifStatement(fatherLevel, fatherOrder);
+      ifStatement(fatherLevel, fatherOrder, setFatherLevelAndOrder);
     } else if (tokensArray[I] === "repeat") {
-      repeatStatement(fatherLevel, fatherOrder);
+      repeatStatement(fatherLevel, fatherOrder, setFatherLevelAndOrder);
     } else if (tokensArray[I] === "read") {
-      readStatement(fatherLevel, fatherOrder);
+      readStatement(fatherLevel, fatherOrder, setFatherLevelAndOrder);
     } else if (tokensArray[I] === "write") {
-      writeStatement(fatherLevel, fatherOrder);
+      writeStatement(fatherLevel, fatherOrder, setFatherLevelAndOrder);
     } else {
-      assignStatement(fatherLevel, fatherOrder);
+      assignStatement(fatherLevel, fatherOrder, setFatherLevelAndOrder);
     }
     orders[currentLevel]++;
   };
 
-  const ifStatement = (fatherLevel, fatherOrder) => {
+  const ifStatement = (fatherLevel, fatherOrder, setFatherLevelAndOrder) => {
     let myIdentity = {
       name: "if",
       level: currentLevel,
@@ -50,6 +54,7 @@ const parserFunction = () => {
       fatherLevel,
       fatherOrder
     };
+    setFatherLevelAndOrder(currentLevel, orders[currentLevel]);
     console.log("ifStatement");
 
     match("if", tokensArray);
@@ -125,7 +130,11 @@ const parserFunction = () => {
     dictionary.push(myIdentity);
   };
 
-  const repeatStatement = (fatherLevel, fatherOrder) => {
+  const repeatStatement = (
+    fatherLevel,
+    fatherOrder,
+    setFatherLevelAndOrder
+  ) => {
     let myIdentity = {
       name: "repeat",
       level: currentLevel,
@@ -133,6 +142,7 @@ const parserFunction = () => {
       fatherLevel,
       fatherOrder
     };
+    setFatherLevelAndOrder(currentLevel, orders[currentLevel]);
 
     console.log("repeatStatement");
     match("repeat", tokensArray);
@@ -199,7 +209,11 @@ const parserFunction = () => {
     dictionary.push(myIdentity);
   };
 
-  const assignStatement = (fatherLevel, fatherOrder) => {
+  const assignStatement = (
+    fatherLevel,
+    fatherOrder,
+    setFatherLevelAndOrder
+  ) => {
     let myIdentity = {
       name: "assign",
       level: currentLevel,
@@ -208,6 +222,8 @@ const parserFunction = () => {
       fatherOrder,
       assignVariable: tokensArray[I]
     };
+
+    setFatherLevelAndOrder(currentLevel, orders[currentLevel]);
 
     console.log(`assignStatement for ${tokensArray[I]}`);
     match("identifier", tokenTypesArray);
@@ -267,7 +283,7 @@ const parserFunction = () => {
     dictionary.push(myIdentity);
   };
 
-  const readStatement = (fatherLevel, fatherOrder) => {
+  const readStatement = (fatherLevel, fatherOrder, setFatherLevelAndOrder) => {
     dictionary.push({
       name: "read",
       level: currentLevel,
@@ -277,12 +293,14 @@ const parserFunction = () => {
       readVariable: tokensArray[I + 1]
     });
 
+    setFatherLevelAndOrder(currentLevel, orders[currentLevel]);
+
     console.log(`readStatement for ${tokensArray[I + 1]}`);
     match("read", tokensArray);
     match("identifier", tokenTypesArray);
   };
 
-  const writeStatement = (fatherLevel, fatherOrder) => {
+  const writeStatement = (fatherLevel, fatherOrder, setFatherLevelAndOrder) => {
     dictionary.push({
       name: "write",
       level: currentLevel,
@@ -292,6 +310,8 @@ const parserFunction = () => {
       writeVariable: tokensArray[I + 1],
       writeVariableType: tokenTypesArray[I + 1]
     });
+
+    setFatherLevelAndOrder(currentLevel, orders[currentLevel]);
 
     console.log(`writeStatement for ${tokensArray[I + 1]}`);
     match("write", tokensArray);

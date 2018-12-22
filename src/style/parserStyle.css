@@ -7,11 +7,16 @@
 .rectangleImage,.ovalImage{
   width: 120px;
   height:70px;
+  background-color: #d89f9f;
+  z-index: 10;
 }
 .statementContainer{
   width: 120px;
   height:70px;
   position: absolute;
+  transform: translate(-50%, -50%);
+  background-color: #d89f9f;
+  z-index: 10;
 }
 .statementName{
   position: absolute;
