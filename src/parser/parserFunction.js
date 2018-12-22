@@ -301,7 +301,7 @@ const parserFunction = () => {
   };
 
   const writeStatement = (fatherLevel, fatherOrder, setFatherLevelAndOrder) => {
-    dictionary.push({
+    let myIdentity = {
       name: "write",
       level: currentLevel,
       order: orders[currentLevel],
@@ -309,14 +309,64 @@ const parserFunction = () => {
       fatherOrder,
       writeVariable: tokensArray[I + 1],
       writeVariableType: tokenTypesArray[I + 1]
-    });
+    };
 
     setFatherLevelAndOrder(currentLevel, orders[currentLevel]);
 
     console.log(`writeStatement for ${tokensArray[I + 1]}`);
     match("write", tokensArray);
 
-    expression();
+    let expressionType;
+    let expressionSign;
+    let expressionParameter1;
+    let expressionParameter2;
+
+    const expressionSetter = (type, sign, parameter1, parameter2) => {
+      if (
+        expressionParameter2 &&
+        expressionParameter2.expressionParameter2 &&
+        expressionParameter2.expressionParameter2.expressionParameter2
+      ) {
+        expressionParameter2.expressionParameter2.expressionParameter2 = {
+          expressionType: type,
+          expressionSign: sign,
+          expressionParameter1: parameter1,
+          expressionParameter2: parameter2
+        };
+      } else if (
+        expressionParameter2 &&
+        expressionParameter2.expressionParameter2
+      ) {
+        expressionParameter2.expressionParameter2 = {
+          expressionType: type,
+          expressionSign: sign,
+          expressionParameter1: parameter1,
+          expressionParameter2: parameter2
+        };
+      } else if (expressionParameter2) {
+        expressionParameter2 = {
+          expressionType: type,
+          expressionSign: sign,
+          expressionParameter1: parameter1,
+          expressionParameter2: parameter2
+        };
+      } else {
+        expressionType = type;
+        expressionSign = sign;
+        expressionParameter1 = parameter1;
+        expressionParameter2 = parameter2;
+      }
+    };
+
+    expression(expressionSetter);
+    myIdentity["expression"] = {
+      expressionType,
+      expressionSign,
+      expressionParameter1,
+      expressionParameter2
+    };
+
+    dictionary.push(myIdentity);
   };
 
   const expression = (expressionTypeSetter) => {
@@ -424,8 +474,13 @@ const parserFunction = () => {
 
   const factor = (expressionTypeSetter) => {
     // console.log("factor");
-    if (expressionTypeSetter)
-      expressionTypeSetter("const", null, tokensArray[I], null);
+    if (expressionTypeSetter) {
+      let expressionType = "const";
+      if (isNaN(tokensArray[I])) {
+        expressionType = "id";
+      }
+      expressionTypeSetter(expressionType, null, tokensArray[I], null);
+    }
 
     if (tokenTypesArray[I] === "number") {
       match("number", tokenTypesArray);

@@ -4,12 +4,12 @@
   padding: 20px;
   background-color: #d89f9f;
 }
-.rectangleImage,.ovalImage{
+.rectangleImage{
   width: 120px;
   height:70px;
-  background-color: #d89f9f;
-  z-index: 10;
+  position: relative;
 }
+
 .statementContainer{
   width: 120px;
   height:70px;
@@ -21,7 +21,45 @@
 .statementName{
   position: absolute;
   left: 50%;
-  top: 20%;
+  top: 15%;
+  transform: translate(-50%, -50%);
+}
+.extraVariable{
+  top: 40%;
+}
+#card {
+  position: absolute;
+  top:30%;
+  left:35%;
+
+  background-color: #FAFAFA;
+  box-shadow: 8px 10px 35px 4px rgba(0,0,0,0.75);
+  z-index: 100;
+}
+
+.closeCardX{
+  position:absolute;
+  top:0;
+  right:2px;
+  margin:0;
+  cursor: pointer;
+  z-index: 200;
+}
+
+.ovalImageContainer{
+  position: relative;
+}
+
+.topExpressionName{
+  position: absolute;
+  left: 50%;
+  top: 30%;
   transform: translate(-50%, -50%);
 }
 
+.bottomExpressionName{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

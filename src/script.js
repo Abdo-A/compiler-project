@@ -7,6 +7,8 @@ const parserPart = document.getElementById("parserPart");
 
 const table = document.getElementsByTagName("table")[0];
 
+const card = document.getElementById("card");
+
 const choiceButton1 = document.getElementById("choiceButton1");
 const choiceButton2 = document.getElementById("choiceButton2");
 const choiceButton3 = document.getElementById("choiceButton3");

@@ -1,21 +1,51 @@
+let expressionsInfo = {}; // The object that will have expressions info for all statements
+
 const parseCodeAndShowResult = () => {
   document.getElementById("parserPart").innerHTML = "";
 
   parserFunction();
+
+  parserPart.innerHTML += `<p>Make sure to click on each statement, in order to view its expressions ^__^</p>
+    <p>Special thanks to our amazing TAs, Mai and Yomna.</p>
+    `;
 
   dictionary.forEach((statement) => {
     parserPart.innerHTML += `
       <div id="${statement.name +
         statement.level +
         statement.order}" class="statementContainer" style="left:${statement.order *
-      200}px;top:${statement.level * 200}px">
+      220}px;top:${statement.level * 220}px;${
+      statement.name == "read" ? "" : "cursor:pointer"
+    }" onclick="toggleMyExpressions('${statement.name +
+      statement.level +
+      statement.order}')">
           <img src="assets/reactangle.png" class="rectangleImage" />
           <h3 class="statementName">${statement.name}</h3>
+
+          ${
+            statement.name == "read"
+              ? `<h3 class="statementName extraVariable">(${
+                  statement.readVariable
+                })</h3>`
+              : ""
+          }
+
+          ${
+            statement.name == "assign"
+              ? `<h3 class="statementName extraVariable">(${
+                  statement.assignVariable
+                })</h3>`
+              : ""
+          }
+
           <div class="line"></div>
       </div>
       `;
-    showPart("parser");
+    expressionsInfo[statement.name + statement.level + statement.order] =
+      statement.expression;
   });
+
+  showPart("parser");
 
   dictionary.forEach((statement1) => {
     dictionary.forEach((statement2) => {
@@ -29,17 +59,65 @@ const parseCodeAndShowResult = () => {
 
         parserPart.appendChild(
           createLine(
-            statement1.order * 200,
-            statement1.level * 200,
-            statement2.order * 200,
-            statement2.level * 200
+            statement1.order * 220,
+            statement1.level * 220,
+            statement2.order * 220,
+            statement2.level * 220
           )
         );
       }
     });
   });
+};
 
-  //<img src="assets/oval.png" class="ovalImage" />
+const toggleMyExpressions = (statementID) => {
+  card.innerHTML = "";
+
+  card.innerHTML += `<p class="closeCardX" onclick="closeCard()">x</p>`;
+
+  const expression = expressionsInfo[statementID];
+  console.log(expression);
+  if (!card.classList.contains("dontShow")) {
+    card.classList.add("dontShow");
+    return;
+  }
+  if (!expression) {
+    return;
+  }
+
+  card.classList.remove("dontShow");
+
+  if (!expression.expressionParameter2) {
+    card.innerHTML += `
+    <div class="ovalImageContainer">
+      <img src="assets/oval.png"/>
+      <h3 class="topExpressionName">${expression.expressionType}</h3>
+      <h3 class="topExpressionName bottomExpressionName">(${
+        expression.expressionParameter1
+      })</h3>
+    </div>
+    `;
+    return;
+  }
+
+  let parameter2;
+  if (typeof expression.expressionParameter2 == "object") {
+    parameter2 = JSON.stringify(expression.expressionParameter2);
+  } else {
+    parameter2 = expression.expressionParameter2;
+  }
+
+  card.innerHTML += `
+  <h4 style="font-weight:bold">Expression Type: ${expression.expressionSign}<h4>
+  <h4 style="font-weight:bold">First Parameter: ${
+    expression.expressionParameter1
+  }<h4>
+  <h4 style="font-weight:bold">Second Parameter: ${parameter2}<h4>
+  `;
+};
+
+const closeCard = () => {
+  card.classList.add("dontShow");
 };
 
 // Third party helpers
